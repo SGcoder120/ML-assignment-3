@@ -43,5 +43,5 @@ You can change any setting of `train.py` with these options: `--hidden` (one or 
 - `run_experiments.py` and `experiments.json`: the 24-configuration experiment grid and its settings
 - `requirements.txt`: packages to install
 - `results/`: results table
-- `results.pdf`: learning curves
+- `results.pdf`: the learning curves
 - `report.pdf`: the report
