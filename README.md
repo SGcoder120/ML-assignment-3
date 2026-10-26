@@ -25,6 +25,8 @@ python train.py --hidden 64 32 --activation sigmoid --optimizer sgd --lr 0.1 --e
 python run_experiments.py --config experiments.json --out results
 ```
 
+**Step 1** installs all of the requirements for this project.
+
 **Step 2** should give a validation accuracy of 0.7711, a test accuracy of 0.7967, and a test macro-F1 of 0.7309.
 
 **Step 3** takes about 30 seconds. It saves the results table, the best configuration per activation (with
