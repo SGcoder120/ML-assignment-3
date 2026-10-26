@@ -1,10 +1,10 @@
-# Assignment 2: Neural Network from Scratch
+# Assignment 3: Neural Network from Scratch
 
 A feed-forward neural network written with NumPy only. It predicts whether a student will Drop out, stay Enrolled, or Graduate.
 
 - **Dataset:** UCI *Predict Students' Dropout and Academic Success* (4,424 students, 36 features, 3 classes)
   https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success
-- **Data is loaded from this raw URL** (no local file needed):
+- **Data is loaded from this raw URL**:
   https://raw.githubusercontent.com/SGcoder120/ML-assignment-3/refs/heads/main/data.csv
 - **Random seed:** 42
 - **Train / validation / test split:** 70% / 15% / 15%, stratified (3096 / 664 / 664 students)
