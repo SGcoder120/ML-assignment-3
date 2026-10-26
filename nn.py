@@ -14,8 +14,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 
-UCI_ID = 697
+DATA_URL = "https://raw.githubusercontent.com/SGcoder120/ML-assignment-3/refs/heads/main/data.csv"
 TARGET = "Target"
+
 # Integer-coded columns that are really categories (see the UCI variable table).
 CATEGORICAL = [
     "Marital status", "Application mode", "Course",
@@ -25,17 +26,9 @@ CATEGORICAL = [
 ]
 
 
-def load_data(csv=None):
-    """Load the dataset from a CSV path (if given) or from the UCI repository."""
-    if csv:
-        with open(csv, "r", encoding="utf-8-sig") as f:
-            header = f.readline()
-        sep = ";" if header.count(";") > header.count(",") else ","
-        df = pd.read_csv(csv, sep=sep)
-    else:
-        from ucimlrepo import fetch_ucirepo
-        ds = fetch_ucirepo(id=UCI_ID)
-        df = pd.concat([ds.data.features, ds.data.targets], axis=1)
+def load_data(url=None):
+    """Load the dataset (semicolon-separated CSV) straight from the raw GitHub URL."""
+    df = pd.read_csv(url or DATA_URL, sep=";")
     df.columns = [c.strip() for c in df.columns]
     return df
 
@@ -60,7 +53,7 @@ class NeuralNet:
         self.lr, self.epochs, self.batch_size = lr, epochs, batch_size
         self.beta1, self.beta2, self.rho = beta1, beta2, rho
         self.l2, self.patience, self.seed, self.verbose = l2, patience, seed, verbose
-        self.params = None
+        self.params: dict = {}
 
     # ------------------------------------------------------------------
     # Preprocessing and splitting
@@ -191,7 +184,7 @@ class NeuralNet:
         return grads
 
     def loss_and_grads(self, X, y):
-        """Loss (+ L2 penalty) and gradients for a batch; used by the gradient check."""
+        """Loss (+ L2 penalty) and gradients for a batch."""
         P, A, Zs = self._forward(X)
         T = self._targets(y)
         loss = self._loss_from(P, T, self.n_out == 1)
@@ -262,7 +255,8 @@ class NeuralNet:
                 if self.patience and wait >= self.patience:
                     break
 
-        self.params = best_params            # restore best weights
+        if best_params is not None:
+            self.params = best_params        # restore best weights
         self.history = hist
         self.best_epoch = best_epoch
         self.epochs_run = len(hist["train_loss"])

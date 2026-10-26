@@ -1,0 +1,19 @@
+== by_activation ==
+            train_acc  val_acc  val_macro_f1  best_epoch
+activation                                              
+relu           0.8148   0.7620        0.6846      24.125
+sigmoid        0.7919   0.7628        0.6723      50.625
+tanh           0.7993   0.7658        0.6900      23.250
+
+== by_optimizer ==
+           train_acc  val_acc  val_macro_f1  best_epoch
+optimizer                                              
+adam          0.8098   0.7627        0.6856      8.5833
+sgd           0.7942   0.7644        0.6790     56.7500
+
+== by_arch ==
+        train_acc  val_acc  val_macro_f1  best_epoch
+hidden                                              
+64         0.8003   0.7644        0.6868     35.5000
+64-32      0.8037   0.7627        0.6778     29.8333
+

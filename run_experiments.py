@@ -1,7 +1,7 @@
 """Run the full experiment grid, pick the best config per activation (by validation),
 evaluate those on the test set, draw learning curves and run the logistic-regression baseline.
 
-    python run_experiments.py --config experiments.json --csv data.csv --out results
+    python run_experiments.py --config experiments.json --out results
 """
 import argparse
 import itertools
@@ -20,17 +20,30 @@ from sklearn.metrics import f1_score
 from nn import NeuralNet, load_data
 
 
+DEFAULT_CONFIG = {
+    "seed": 42, "split": [0.70, 0.15, 0.15], "epochs": 100, "batch_size": 64,
+    "patience": 15, "l2": 0.0,
+    "activations": ["sigmoid", "tanh", "relu"],
+    "architectures": [[64], [64, 32]],
+    "optimizers": {"sgd": {"lrs": [0.1, 0.01]}, "adam": {"lrs": [0.01, 0.001]}},
+    "selection_metric": "val_macro_f1",
+}  # same values as experiments.json, used only if that file is not found
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--config", default="experiments.json")
-    p.add_argument("--csv", default=None, help="optional CSV path (default: ucimlrepo download)")
     p.add_argument("--out", default="results")
     a = p.parse_args()
-    cfg = json.load(open(a.config))
+    if os.path.exists(a.config):
+        cfg = json.load(open(a.config))
+    else:
+        print(f"{a.config} not found, using the built-in default config (same as experiments.json)")
+        cfg = DEFAULT_CONFIG
     os.makedirs(a.out, exist_ok=True)
 
     prep = NeuralNet(seed=cfg["seed"])
-    data = prep.preprocess(load_data(a.csv), split=tuple(cfg["split"]), seed=cfg["seed"])
+    data = prep.preprocess(load_data(), split=tuple(cfg["split"]), seed=cfg["seed"])
     Xtr, ytr, Xva, yva = data["X_train"], data["y_train"], data["X_val"], data["y_val"]
     print(f"features after preprocessing: {Xtr.shape[1]} | sizes "
           f"{len(ytr)}/{len(yva)}/{len(data['y_test'])} | classes {data['classes']}")

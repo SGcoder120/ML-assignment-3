@@ -1,0 +1,15 @@
+{
+  "seed": 42,
+  "split": [0.70, 0.15, 0.15],
+  "epochs": 100,
+  "batch_size": 64,
+  "patience": 15,
+  "l2": 0.0,
+  "activations": ["sigmoid", "tanh", "relu"],
+  "architectures": [[64], [64, 32]],
+  "optimizers": {
+    "sgd":  {"lrs": [0.1, 0.01]},
+    "adam": {"lrs": [0.01, 0.001]}
+  },
+  "selection_metric": "val_macro_f1"
+}

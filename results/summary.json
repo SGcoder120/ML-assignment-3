@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "n_features": 234,
+  "baseline": {
+    "test_acc": 0.7816265060240963,
+    "test_macro_f1": 0.7134724416767358,
+    "val_acc": 0.7725903614457831
+  },
+  "best_ids": {
+    "sigmoid": 5,
+    "tanh": 10,
+    "relu": 18
+  }
+}
